@@ -1,4 +1,4 @@
-package Jogo;
+package evento;
 
 public class Evento {
 }
