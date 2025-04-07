@@ -31,7 +31,7 @@ public class Main {
 
 
         //Status Personagem
-        System.out.println("\n-- Teste dos Personagens --");
+        System.out.println("\n --Teste dos Personagens-- ");
         medico.exibirStatus();
         medico.habilidadeEspecial();
         inventarioMedico.mostrarInventario();
@@ -51,7 +51,7 @@ public class Main {
 
         //Usando e removendo itens de exemplo
 
-        System.out.println("\n-- Usando e Removendo Itens --");
+        System.out.println("\n -- Usando e Removendo Itens -- ");
         inventarioMedico.usarItem("Remédios");
         inventarioMedico.removerItem("Água");
 
