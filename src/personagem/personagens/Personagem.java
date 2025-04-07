@@ -11,6 +11,10 @@ public abstract class Personagem {
         this.energia = energia;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
     public void exibirStatus() {
         System.out.println("Nome: " + nome);
         System.out.println("Vida: " + vida);

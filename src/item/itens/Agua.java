@@ -1,13 +1,24 @@
 package item.itens;
 
 public class Agua extends Item {
+    private String pureza;  // potável, contaminada
+    private double volume;
 
-    public Agua() {
-        super("Água", 1, 1.0); // nome, quantidade, peso
+    public Agua(int quantidade, double peso, String pureza, double volume) {
+        super("Água", quantidade, peso);
+        this.pureza = pureza;
+        this.volume = volume;
+    }
+
+    public void beber() {
+        System.out.println("Bebendo água (" + pureza + ") - Volume: " + volume + "L");
+        if (pureza.equalsIgnoreCase("contaminada")) {
+            System.out.println("Você pode ficar doente!");
+        }
     }
 
     @Override
     public void usar() {
-        System.out.println("Você bebeu água. Hidratação aumentada.");
+        beber();
     }
 }

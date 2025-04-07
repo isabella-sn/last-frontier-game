@@ -1,12 +1,18 @@
 package item.itens;
 
 public class Ferramentas extends Item {
-    public Ferramentas(int quantidade, double peso) {
+    private String tipo; // machado, faca, etc.
+    private int eficiencia; // quanto maior, mais eficiente
+
+    public Ferramentas(int quantidade, double peso, String tipo, int eficiencia) {
         super("Ferramenta", quantidade, peso);
+        this.tipo = tipo;
+        this.eficiencia = eficiencia;
     }
 
     @Override
     public void usar() {
-        System.out.println("Você usou uma ferramenta. Reparos realizados.");
+        System.out.println("Usando " + tipo + " com eficiência " + eficiencia + ".");
+        // Aqui você pode adicionar efeitos, como reduzir durabilidade, etc.
     }
 }

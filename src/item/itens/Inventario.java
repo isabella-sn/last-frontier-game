@@ -53,11 +53,18 @@ public class Inventario {
     }
 
     public void mostrarInventario() {
-        System.out.println("\n-- Inventário --");
-        for (Item item : listaDeItens) {
-            item.exibirInfo();
-            System.out.println();
+        System.out.println("\n===== Inventário =====");
+
+        if (listaDeItens.isEmpty()) {
+            System.out.println("O inventário está vazio.");
+        } else {
+            for (Item item : listaDeItens) {
+                item.exibirInfo();
+                System.out.println("------------------------");
+            }
+            System.out.println("Peso total: " + pesoTotal + " / " + espacoDisponivel);
         }
-        System.out.println("Peso total: " + pesoTotal + "/" + espacoDisponivel);
+
+        System.out.println("=======================\n");
     }
 }
