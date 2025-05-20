@@ -1,4 +1,4 @@
-package item.itens;
+package item;
 
 public class Alimentos extends Item {
     private int valorNutricional;

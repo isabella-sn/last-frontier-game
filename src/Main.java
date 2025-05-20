@@ -2,8 +2,8 @@ package src;
 
 import ambiente.GerenciadorDeAmbientes;
 import evento.ControladorDeEventos;
-import item.itens.*;
-import personagem.personagens.*;
+import item.*;
+import personagem.*;
 import sistema.ControladorDeTurnos;
 
 import java.util.Scanner;

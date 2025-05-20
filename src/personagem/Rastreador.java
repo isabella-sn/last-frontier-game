@@ -1,4 +1,4 @@
-package personagem.personagens;
+package personagem;
 
 public class Rastreador extends Personagem {
 

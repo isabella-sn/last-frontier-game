@@ -1,4 +1,4 @@
-package item.itens;
+package item;
 
 public abstract class Item {
     protected String nome;

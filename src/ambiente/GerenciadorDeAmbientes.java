@@ -1,7 +1,10 @@
 package ambiente;
 
-import ambiente.ambientes.*;
-import personagem.personagens.Personagem;
+import ambiente.Ambiente;
+import personagem.Personagem;
+import item.Item;
+import item.Inventario;
+
 import java.util.*;
 
 public class GerenciadorDeAmbientes {
@@ -10,7 +13,6 @@ public class GerenciadorDeAmbientes {
     private List<Ambiente> todosAmbientes;
 
     public GerenciadorDeAmbientes() {
-        // Inicializa todos os ambientes disponíveis
         todosAmbientes = new ArrayList<>();
         todosAmbientes.add(new Floresta());
         todosAmbientes.add(new Montanha());
@@ -18,8 +20,7 @@ public class GerenciadorDeAmbientes {
         todosAmbientes.add(new LagoERio());
         todosAmbientes.add(new Ruinas());
 
-        // Define um ambiente inicial
-        ambienteAtual = todosAmbientes.get(0); // Começa na floresta, por exemplo
+        ambienteAtual = todosAmbientes.get(0); // Começa na floresta
     }
 
     public Ambiente getAmbienteAtual() {
@@ -43,16 +44,51 @@ public class GerenciadorDeAmbientes {
         }
     }
 
-    public void explorarAmbiente(Personagem jogador) {
+    // Versão completa com todos os parâmetros
+    public void explorarAmbiente(Personagem jogador, Inventario inventario, Scanner scanner) {
         System.out.println("\n--- Exploração do Ambiente: " + ambienteAtual.getNome() + " ---");
-        ambienteAtual.explorar(jogador);
+        System.out.println(ambienteAtual.getDescricao());
+
+        List<Item> itensDisponiveis = ambienteAtual.getRecursosDisponiveis();
+
+        if (itensDisponiveis.isEmpty()) {
+            System.out.println("Nenhum item encontrado no ambiente.");
+            return;
+        }
+
+        System.out.println("Você encontrou os seguintes itens:");
+        for (int i = 0; i < itensDisponiveis.size(); i++) {
+            System.out.println((i + 1) + ". " + itensDisponiveis.get(i).getNome());
+        }
+
+        System.out.print("Digite o número do item que deseja pegar (0 para nenhum): ");
+        int escolha = scanner.nextInt();
+        scanner.nextLine();
+
+        if (escolha > 0 && escolha <= itensDisponiveis.size()) {
+            Item itemEscolhido = itensDisponiveis.get(escolha - 1);
+            boolean adicionado = inventario.adicionarItem(itemEscolhido);
+
+            if (adicionado) {
+                ambienteAtual.removerItem(itemEscolhido);
+                System.out.println("Você pegou o(a) " + itemEscolhido.getNome() + ".");
+            } else {
+                System.out.println("Não foi possível pegar o item. Inventário cheio ou sem espaço.");
+            }
+        } else {
+            System.out.println("Você decidiu não pegar nenhum item.");
+        }
+    }
+
+    // Versão simples só com o jogador
+    public void explorarAmbiente(Personagem jogador) {
+        explorarAmbiente(jogador, jogador.getInventario(), new Scanner(System.in));
     }
 
     public void executarEventoDoAmbiente(Personagem jogador) {
         System.out.println("\n--- Evento Aleatório no Ambiente ---");
         ambienteAtual.gerarEvento(jogador);
     }
-
 
     public void modificarCondicoesClimaticas() {
         System.out.println("\n--- Mudança Climática no Ambiente ---");
@@ -61,7 +97,7 @@ public class GerenciadorDeAmbientes {
 
     public void listarRecursosDisponiveis() {
         System.out.println("\n--- Recursos disponíveis no ambiente atual ---");
-        for (var recurso : ambienteAtual.getRecursosDisponiveis()) {
+        for (Item recurso : ambienteAtual.getRecursosDisponiveis()) {
             System.out.println("- " + recurso.getNome());
         }
     }

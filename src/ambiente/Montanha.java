@@ -1,10 +1,10 @@
-package ambiente.ambientes;
+package ambiente;
 
-import item.itens.Item;
-import item.itens.Agua;
+import item.Item;
+import item.Agua;
 import java.util.*;
 
-import personagem.personagens.Personagem;
+import personagem.Personagem;
 
 public class Montanha extends Ambiente {
 
@@ -52,6 +52,14 @@ public class Montanha extends Ambiente {
                 break;
         }
     }
+    @Override
+    public void removerItem(Item item) {
+        if (this.getItensDisponiveis() != null) {
+            this.getItensDisponiveis().remove(item);
+        }
+    }
+
+
 
     @Override
     public void modificarClima() {

@@ -1,4 +1,4 @@
-package item.itens;
+package item;
 
 public class Armas extends Item {
     private String tipo;

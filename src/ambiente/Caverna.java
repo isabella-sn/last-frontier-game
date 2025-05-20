@@ -1,7 +1,7 @@
-package ambiente.ambientes;
+package ambiente;
 
-import item.itens.*;
-import personagem.personagens.Personagem;
+import item.*;
+import personagem.Personagem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +44,13 @@ public class Caverna extends Ambiente {
             case 2 -> System.out.println("Um desmoronamento parcial bloqueou parte da saída.");
         }
     }
+    @Override
+    public void removerItem(Item item) {
+        if (this.getItensDisponiveis() != null) {
+            this.getItensDisponiveis().remove(item);
+        }
+    }
+
 
     @Override
     public void modificarClima() {

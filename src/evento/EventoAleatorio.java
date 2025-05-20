@@ -17,6 +17,6 @@ public abstract class EventoAleatorio {
         return descricao;
     }
 
-    // Método que executa o efeito do evento (deve ser implementado nas subclasses)
+
     public abstract void executar();
 }

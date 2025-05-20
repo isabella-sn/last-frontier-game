@@ -1,7 +1,7 @@
-package item.itens;
+package item;
 
 public class Materiais extends Item {
-    private String tipo; // madeira, pedra, metal
+    private String tipo;
     private int resistencia;
 
     public Materiais(int quantidade, double peso, String tipo, int resistencia) {

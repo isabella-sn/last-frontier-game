@@ -10,6 +10,6 @@ public class EventosDeCriaturas extends EventoAleatorio {
     public void executar() {
         System.out.println("Evento de Criaturas: " + nome);
         System.out.println(descricao);
-        // Implementar ataque ou encontro com criaturas
+
     }
 }

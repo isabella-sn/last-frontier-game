@@ -1,10 +1,10 @@
-package ambiente.ambientes;
+package ambiente;
 
-import item.itens.Item;
-import item.itens.Agua;
+import item.Item;
+import item.Agua;
 import java.util.*;
 
-import personagem.personagens.Personagem;
+import personagem.Personagem;
 
 public class LagoERio extends Ambiente {
 
@@ -56,4 +56,12 @@ public class LagoERio extends Ambiente {
     public void modificarClima() {
         System.out.println("Chuva forte cai sobre o rio, tornando-o perigoso.");
     }
+    @Override
+    public void removerItem(Item item) {
+        if (this.getItensDisponiveis() != null) {
+            this.getItensDisponiveis().remove(item);
+        }
+    }
+
+
 }

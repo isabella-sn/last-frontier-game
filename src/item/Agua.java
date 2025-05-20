@@ -1,4 +1,4 @@
-package item.itens;
+package item;
 
 public class Agua extends Item {
     private String pureza;  // potável, contaminada

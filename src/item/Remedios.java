@@ -1,4 +1,4 @@
-package item.itens;
+package item;
 
 public class Remedios extends Item {
     private String tipo;

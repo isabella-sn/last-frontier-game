@@ -1,4 +1,4 @@
-package item.itens;
+package item;
 
 public class Ferramentas extends Item {
     private String tipo; // machado, faca, etc.
