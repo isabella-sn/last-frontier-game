@@ -1,43 +1,69 @@
 package ambiente.ambientes;
 
-import item.itens.*;
-import java.util.*;
+import item.itens.Item;
+import personagem.personagens.Personagem;
+
+import java.util.List;
+import java.util.Scanner;
 
 public class Floresta extends Ambiente {
 
     public Floresta() {
-        super(
-                "Floresta",
-                "Uma área rica em recursos naturais, mas com presença de predadores.",
-                1.2, // dificuldade de exploração
-                gerarRecursos(), // lista de itens
-                0.5, // probabilidade de eventos
-                "Clima úmido com chuvas frequentes."
-        );
-    }
-
-    private static List<Item> gerarRecursos() {
-        List<Item> recursos = new ArrayList<>();
-        recursos.add(new Alimentos(1, 0.5, 15, "Fruta silvestre", false));
-        recursos.add(new Materiais(2, 2.0, "Madeira", 60));
-        recursos.add(new Armas(1, 3.0, "Lança improvisada", 25, 1));
-        return recursos;
+        super("Floresta", "Uma floresta densa com muitos recursos.", 1.0,
+                List.of(/* itens iniciais */), 0.3, "Clima ameno");
     }
 
     @Override
-    public void explorar(personagem.personagens.Personagem jogador) {
-        System.out.println("Você está explorando a floresta...");
-        // Aqui pode adicionar lógica de exploração com base no personagem
+    public void explorar(Personagem jogador) {
+        Scanner scanner = new Scanner(System.in);
+        List<Item> itens = this.recursosDisponiveis;
+
+        if (itens.isEmpty()) {
+            System.out.println("Nenhum item encontrado na floresta.");
+            return;
+        }
+
+        System.out.println("Você encontrou os seguintes itens na floresta:");
+
+        for (int i = 0; i < itens.size(); i++) {
+            System.out.println((i + 1) + ". " + itens.get(i).getNome());
+        }
+
+        System.out.print("Digite o número do item que deseja pegar (0 para nenhum): ");
+        int escolha = scanner.nextInt();
+        scanner.nextLine();
+
+        if (escolha > 0 && escolha <= itens.size()) {
+            Item itemEscolhido = itens.get(escolha - 1);
+
+            boolean conseguiuAdicionar = jogador.getInventario().adicionarItem(itemEscolhido);
+
+            if (conseguiuAdicionar) {
+                itens.remove(itemEscolhido);
+                System.out.println("Você pegou o item: " + itemEscolhido.getNome());
+            } else {
+                System.out.println("Não foi possível pegar o item (inventário cheio ou sem espaço).");
+            }
+        } else {
+            System.out.println("Você decidiu não pegar nenhum item.");
+        }
     }
 
     @Override
-    public void gerarEvento(personagem.personagens.Personagem jogador) {
-        System.out.println("Um evento da floresta ocorreu!");
-        // Aqui você pode sortear entre ataque de animal, chuva, etc.
+    public void gerarEvento(Personagem jogador) {
+        // Implementar eventos específicos da floresta
     }
 
     @Override
     public void modificarClima() {
-        System.out.println("Uma chuva intensa começa a cair na floresta.");
+        // Implementar mudança de clima da floresta
     }
+    @Override
+    public void removerItem(Item item) {
+        if (this.getItensDisponiveis() != null) {
+            this.getItensDisponiveis().remove(item);
+        }
+    }
+
+
 }

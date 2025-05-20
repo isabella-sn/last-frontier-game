@@ -52,6 +52,14 @@ public class Montanha extends Ambiente {
                 break;
         }
     }
+    @Override
+    public void removerItem(Item item) {
+        if (this.getItensDisponiveis() != null) {
+            this.getItensDisponiveis().remove(item);
+        }
+    }
+
+
 
     @Override
     public void modificarClima() {

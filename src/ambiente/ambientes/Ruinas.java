@@ -56,4 +56,12 @@ public class Ruinas extends Ambiente {
     public void modificarClima() {
         System.out.println("Apesar do tempo lá fora, as ruínas continuam secas e abrigadas.");
     }
+    @Override
+    public void removerItem(Item item) {
+        if (this.getItensDisponiveis() != null) {
+            this.getItensDisponiveis().remove(item);
+        }
+    }
+
+
 }

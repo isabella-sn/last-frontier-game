@@ -1,6 +1,7 @@
 package item.itens;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Inventario {
@@ -29,10 +30,12 @@ public class Inventario {
     }
 
     public boolean removerItem(String nomeItem) {
-        for (Item item : listaDeItens) {
+        Iterator<Item> iter = listaDeItens.iterator();
+        while (iter.hasNext()) {
+            Item item = iter.next();
             if (item.getNome().equalsIgnoreCase(nomeItem)) {
-                listaDeItens.remove(item);
                 pesoTotal -= item.getPesoTotal();
+                iter.remove();
                 System.out.println(nomeItem + " removido do inventário.");
                 return true;
             }
@@ -46,10 +49,8 @@ public class Inventario {
             Item item = listaDeItens.get(i);
             if (item.getNome().equalsIgnoreCase(nomeItem)) {
                 item.usar();
-
-                // Após o uso, remove o item e atualiza o peso
-                listaDeItens.remove(i);
                 pesoTotal -= item.getPesoTotal();
+                listaDeItens.remove(i);
                 System.out.println(nomeItem + " foi usado e removido do inventário.");
                 return true;
             }
@@ -58,7 +59,6 @@ public class Inventario {
         return false;
     }
 
-
     public void mostrarInventario() {
         System.out.println("\n===== Inventário =====");
 
@@ -66,6 +66,7 @@ public class Inventario {
             System.out.println("O inventário está vazio.");
         } else {
             for (Item item : listaDeItens) {
+                System.out.println("Item no inventário: " + item.getNome());
                 item.exibirInfo();
                 System.out.println("------------------------");
             }
@@ -73,5 +74,15 @@ public class Inventario {
         }
 
         System.out.println("=======================\n");
+    }
+
+    // Opcional: método para verificar se um item está no inventário
+    public boolean contemItem(String nomeItem) {
+        for (Item item : listaDeItens) {
+            if (item.getNome().equalsIgnoreCase(nomeItem)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

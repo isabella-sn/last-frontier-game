@@ -12,6 +12,10 @@ public abstract class Ambiente {
     protected List<Item> recursosDisponiveis;
     protected double probabilidadeEventos;
     protected String condicoesClimaticas;
+    protected List<Item> itensDisponiveis;
+
+
+
 
     public Ambiente(String nome, String descricao, double dificuldadeExploracao,
                     List<Item> recursosDisponiveis, double probabilidadeEventos,
@@ -23,7 +27,10 @@ public abstract class Ambiente {
         this.probabilidadeEventos = probabilidadeEventos;
         this.condicoesClimaticas = condicoesClimaticas;
     }
+    public List<Item> getItensDisponiveis() {
+        return itensDisponiveis;
 
+    }
     public String getNome() {
         return nome;
     }
@@ -41,4 +48,6 @@ public abstract class Ambiente {
     public abstract void gerarEvento(Personagem jogador);
 
     public abstract void modificarClima();
+
+    public abstract void removerItem(Item item);
 }

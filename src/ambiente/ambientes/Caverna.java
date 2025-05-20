@@ -44,6 +44,13 @@ public class Caverna extends Ambiente {
             case 2 -> System.out.println("Um desmoronamento parcial bloqueou parte da saída.");
         }
     }
+    @Override
+    public void removerItem(Item item) {
+        if (this.getItensDisponiveis() != null) {
+            this.getItensDisponiveis().remove(item);
+        }
+    }
+
 
     @Override
     public void modificarClima() {

@@ -13,7 +13,7 @@ public class ControladorDeTurnos {
     public void executarTurno(Personagem personagem, GerenciadorDeAmbientes gerenciador) {
         System.out.println("\n--- Turno " + turnoAtual + " ---");
 
-        // Recupera energia leve por turno
+        // Mantém recuperação leve de energia (descanso leve, por exemplo)
         personagem.recuperarEnergia(2);
 
         // Evento aleatório do ambiente

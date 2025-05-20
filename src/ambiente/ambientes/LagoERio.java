@@ -56,4 +56,12 @@ public class LagoERio extends Ambiente {
     public void modificarClima() {
         System.out.println("Chuva forte cai sobre o rio, tornando-o perigoso.");
     }
+    @Override
+    public void removerItem(Item item) {
+        if (this.getItensDisponiveis() != null) {
+            this.getItensDisponiveis().remove(item);
+        }
+    }
+
+
 }
