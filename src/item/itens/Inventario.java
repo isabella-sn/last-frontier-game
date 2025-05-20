@@ -42,15 +42,22 @@ public class Inventario {
     }
 
     public boolean usarItem(String nomeItem) {
-        for (Item item : listaDeItens) {
+        for (int i = 0; i < listaDeItens.size(); i++) {
+            Item item = listaDeItens.get(i);
             if (item.getNome().equalsIgnoreCase(nomeItem)) {
                 item.usar();
+
+                // Após o uso, remove o item e atualiza o peso
+                listaDeItens.remove(i);
+                pesoTotal -= item.getPesoTotal();
+                System.out.println(nomeItem + " foi usado e removido do inventário.");
                 return true;
             }
         }
         System.out.println(nomeItem + " não encontrado no inventário.");
         return false;
     }
+
 
     public void mostrarInventario() {
         System.out.println("\n===== Inventário =====");

@@ -1,15 +1,19 @@
 package src;
 
 import ambiente.GerenciadorDeAmbientes;
+import evento.ControladorDeEventos;
 import item.itens.*;
 import personagem.personagens.*;
+import sistema.ControladorDeTurnos;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        GerenciadorDeAmbientes gerenciador = new GerenciadorDeAmbientes(); // Gerenciador de ambientes
+        GerenciadorDeAmbientes gerenciador = new GerenciadorDeAmbientes();
+        ControladorDeTurnos controlador = new ControladorDeTurnos();
+        ControladorDeEventos controladorEventos = new ControladorDeEventos(); // <--- Instancia o controlador de eventos
 
         // Criando personagens
         Medico medico = new Medico("Doutor Vida");
@@ -21,7 +25,7 @@ public class Main {
         Inventario inventarioRastreador = new Inventario(60);
         Inventario inventarioSobrevivente = new Inventario(70);
 
-        // Adicionando itens aos inventários
+        // Itens iniciais
         inventarioMedico.adicionarItem(new Remedios(2, 1.5, "Bandagem", "Cura ferimentos leves"));
         inventarioMedico.adicionarItem(new Agua(1, 0.5, "potável", 1.0));
 
@@ -45,13 +49,13 @@ public class Main {
 
             switch (escolha) {
                 case 1:
-                    menuPersonagem(scanner, medico, inventarioMedico, gerenciador);
+                    menuPersonagem(scanner, medico, inventarioMedico, gerenciador, controlador, controladorEventos);
                     break;
                 case 2:
-                    menuPersonagem(scanner, rastreador, inventarioRastreador, gerenciador);
+                    menuPersonagem(scanner, rastreador, inventarioRastreador, gerenciador, controlador, controladorEventos);
                     break;
                 case 3:
-                    menuPersonagem(scanner, sobrevivente, inventarioSobrevivente, gerenciador);
+                    menuPersonagem(scanner, sobrevivente, inventarioSobrevivente, gerenciador, controlador, controladorEventos);
                     break;
                 case 4:
                     System.out.println("Encerrando o jogo...");
@@ -65,11 +69,14 @@ public class Main {
         scanner.close();
     }
 
-    public static void menuPersonagem(Scanner scanner, Personagem personagem, Inventario inventario, GerenciadorDeAmbientes gerenciador) {
+    public static void menuPersonagem(Scanner scanner, Personagem personagem, Inventario inventario,
+                                      GerenciadorDeAmbientes gerenciador, ControladorDeTurnos controlador,
+                                      ControladorDeEventos controladorEventos) {
         boolean emPersonagem = true;
 
         while (emPersonagem) {
             System.out.println("\n--- Menu de " + personagem.getNome() + " ---");
+            System.out.println("Turno: " + controlador.getTurnoAtual());
             System.out.println("Ambiente atual: " + gerenciador.getAmbienteAtual().getNome());
             System.out.println("1. Ver status");
             System.out.println("2. Ver inventário");
@@ -104,9 +111,13 @@ public class Main {
                     int escolhaAmbiente = scanner.nextInt();
                     scanner.nextLine();
                     gerenciador.mudarAmbiente(escolhaAmbiente);
+                    controlador.executarTurno(personagem, gerenciador);
+                    controladorEventos.dispararEventoAleatorio(); // <--- Dispara evento após mover
                     break;
                 case 5:
                     gerenciador.explorarAmbiente(personagem);
+                    controlador.executarTurno(personagem, gerenciador);
+                    controladorEventos.dispararEventoAleatorio(); // <--- Dispara evento após explorar
                     break;
                 case 6:
                     gerenciador.listarRecursosDisponiveis();
@@ -115,7 +126,9 @@ public class Main {
                     gerenciador.modificarCondicoesClimaticas();
                     break;
                 case 8:
-                    gerenciador.executarEventoDoAmbiente(personagem); // CORRIGIDO: passa o personagem
+                    gerenciador.executarEventoDoAmbiente(personagem);
+                    controlador.executarTurno(personagem, gerenciador);
+                    controladorEventos.dispararEventoAleatorio(); // <--- Evento adicional após evento do ambiente
                     break;
                 case 9:
                     emPersonagem = false;
