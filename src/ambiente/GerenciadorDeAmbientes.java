@@ -1,9 +1,9 @@
 package ambiente;
 
-import ambiente.Ambiente;
-import personagem.Personagem;
-import item.Item;
-import item.Inventario;
+import ambiente.ambientes.*;
+import personagem.personagens.Personagem;
+import item.itens.Item;
+import item.itens.Inventario;
 
 import java.util.*;
 
