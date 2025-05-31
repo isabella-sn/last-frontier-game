@@ -1,5 +1,7 @@
 package ambiente;
 
+import criatura.Cobra;
+import criatura.Crocodilo;
 import item.Item;
 import item.Materiais;
 import java.util.*;
@@ -34,21 +36,21 @@ public class Ruinas extends Ambiente {
 
     @Override
     public void gerarEvento(Personagem jogador) {
-        Random rand = new Random();
-        int evento = rand.nextInt(3);
-        switch (evento) {
-            case 0:
-                System.out.println("Você encontra sobreviventes hostis! É atacado.");
-                jogador.sofrerDano(15);
-                break;
-            case 1:
-                System.out.println("Uma armadilha antiga é acionada! Você se fere levemente.");
-                jogador.sofrerDano(10);
-                break;
-            case 2:
-                System.out.println("Você descobre uma passagem secreta com suprimentos.");
-                jogador.recuperarEnergia(15);
-                break;
+        double chance = Math.random();
+        if (chance < 0.05) {
+
+            System.out.println("Você encontrou um baú antigo entre os escombros!");
+            jogador.adicionarAgua(2);
+            jogador.adicionarComida(1);
+            jogador.recuperarEnergia(10);
+
+        } else if (chance < 0.5) {
+            System.out.println("Uma armadilha antiga é acionada! Você se feriu.");
+            jogador.sofrerDano(40);
+        } else {
+            Cobra cobra = new Cobra();
+            System.out.println("Você pisou sem querer em uma cobra venenosa, foi picado e morreu");
+            jogador.sofrerDano(cobra.getDano());
         }
     }
 

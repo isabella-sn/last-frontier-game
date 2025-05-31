@@ -27,7 +27,6 @@ public class Caverna extends Ambiente {
         recursos.add(new Alimentos(1, 1.2, 10, "fungos", false));
         return recursos;
     }
-
     @Override
     public void explorar(Personagem jogador) {
         System.out.println("Você explora a caverna com cuidado... é escuro e silencioso.");
@@ -35,13 +34,21 @@ public class Caverna extends Ambiente {
     }
 
     @Override
-    public void gerarEvento(Personagem personagem) {
+    public void gerarEvento(Personagem jogador) {
         Random rand = new Random();
         int evento = rand.nextInt(3);
         switch (evento) {
-            case 0 -> System.out.println("Você encontrou uma criatura hostil!");
-            case 1 -> System.out.println("Você descobriu um túnel oculto.");
-            case 2 -> System.out.println("Um desmoronamento parcial bloqueou parte da saída.");
+            case 0:
+                System.out.println("Um desmoronamento parcial atingiu você");
+                jogador.sofrerDano(40);
+                break;
+            case 1:
+                System.out.println("A caverna não tem animais, você pode se abrigar por um tempo");
+                jogador.recuperarEnergia(10);
+                break;
+            case 2:
+                System.out.println("A cavera desmoronou totalmente e você ficou soterrado");
+                jogador.sofrerDano(200);
         }
     }
     @Override

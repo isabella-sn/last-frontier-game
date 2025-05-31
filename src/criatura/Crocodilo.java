@@ -4,7 +4,7 @@ import personagem.Personagem;
 
 public class Crocodilo extends Criatura {
     public Crocodilo() {
-        super("Crocodilo", 25);
+        super("Crocodilo", 100, 200);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package ambiente;
 
-import ambiente.Ambiente;
 import personagem.Personagem;
 import item.Item;
 import item.Inventario;
@@ -44,7 +43,7 @@ public class GerenciadorDeAmbientes {
         }
     }
 
-    // Versão completa com todos os parâmetros
+
     public void explorarAmbiente(Personagem jogador, Inventario inventario, Scanner scanner) {
         System.out.println("\n--- Exploração do Ambiente: " + ambienteAtual.getNome() + " ---");
         System.out.println(ambienteAtual.getDescricao());
@@ -80,7 +79,7 @@ public class GerenciadorDeAmbientes {
         }
     }
 
-    // Versão simples só com o jogador
+
     public void explorarAmbiente(Personagem jogador) {
         explorarAmbiente(jogador, jogador.getInventario(), new Scanner(System.in));
     }

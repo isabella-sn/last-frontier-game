@@ -2,9 +2,9 @@ package criatura;
 
 import personagem.Personagem;
 
-public class  Lebre extends Criatura {
+public class Lebre extends Criatura {
     public Lebre() {
-        super("Lebre", 0); // força zero
+        super("Lebre", 0, 0);
     }
 
     @Override

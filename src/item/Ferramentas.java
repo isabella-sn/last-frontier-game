@@ -1,8 +1,8 @@
 package item;
 
 public class Ferramentas extends Item {
-    private String tipo; // machado, faca, etc.
-    private int eficiencia; // quanto maior, mais eficiente
+    private String tipo;
+    private int eficiencia;
 
     public Ferramentas(int quantidade, double peso, String tipo, int eficiencia) {
         super("Ferramenta", quantidade, peso);
@@ -13,6 +13,6 @@ public class Ferramentas extends Item {
     @Override
     public void usar() {
         System.out.println("Usando " + tipo + " com eficiência " + eficiencia + ".");
-        // Aqui você pode adicionar efeitos, como reduzir durabilidade, etc.
+
     }
 }

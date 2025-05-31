@@ -1,9 +1,12 @@
 package ambiente;
 
+import criatura.Cobra;
+import criatura.Leao;
 import item.Item;
 import item.Agua;
 import java.util.*;
 
+import personagem.Jogador;
 import personagem.Personagem;
 
 public class Montanha extends Ambiente {
@@ -35,21 +38,24 @@ public class Montanha extends Ambiente {
 
     @Override
     public void gerarEvento(Personagem jogador) {
-        Random rand = new Random();
-        int evento = rand.nextInt(3);
-        switch (evento) {
-            case 0:
-                System.out.println("Uma nevasca repentina te atinge! Você perde 15 de energia.");
-                jogador.perderEnergia(15);
-                break;
-            case 1:
-                System.out.println("Deslizamento de pedras! Você sofre ferimentos leves.");
-                jogador.sofrerDano(10);
-                break;
-            case 2:
-                System.out.println("Você encontrou uma caverna segura para descanso.");
-                jogador.recuperarEnergia(10);
-                break;
+        double chance = Math.random();
+        if (chance < 0.3) {
+
+            System.out.println("Deslizamento de pedras! Você sofre ferimentos leves.");
+            jogador.sofrerDano(20);
+
+        } else if (chance < 0.6) {
+            System.out.println("Você tropeçou do alto da montanha e rolou morro a baixo.");
+            jogador.sofrerDano(40);
+        } else if (chance < 0.8){
+            Leao leao = new Leao();
+            System.out.println("Um leão das montanhas te atacou, você morreu");
+            jogador.sofrerDano(leao.getDano());
+        } else {
+            System.out.println("Você encontrou ervas medicinais raras e fez um chá revigorante.");
+            jogador.sofrerDano(-15); // Curar
+            jogador.recuperarEnergia(10);
+
         }
     }
     @Override

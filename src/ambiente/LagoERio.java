@@ -1,5 +1,6 @@
 package ambiente;
 
+import criatura.Crocodilo;
 import item.Item;
 import item.Agua;
 import java.util.*;
@@ -34,22 +35,23 @@ public class LagoERio extends Ambiente {
 
     @Override
     public void gerarEvento(Personagem jogador) {
-        Random rand = new Random();
-        int evento = rand.nextInt(3);
-        switch (evento) {
-            case 0:
-                System.out.println("Um jacaré aparece repentinamente! Você se fere ao escapar.");
-                jogador.sofrerDano(20);
-                break;
-            case 1:
-                System.out.println("Tempestade! O nível da água sobe rapidamente.");
-                jogador.perderEnergia(10);
-                break;
-            case 2:
-                System.out.println("Você encontra um barco abandonado com suprimentos.");
-                jogador.recuperarEnergia(10);
-                break;
-        }
+        double chance = Math.random();
+        if (chance < 0.2) {
+            Crocodilo crocodilo = new Crocodilo();
+            System.out.println("Um crocodilo aparece repentinamente! Você foi atacado e não sobreviveu");
+            jogador.sofrerDano(crocodilo.getDano());
+
+        } else if (chance < 0.5) {
+            System.out.println("Tempestade! O nível da água sobe rapidamente.");
+            jogador.perderEnergia(60);
+        } else if (chance <0.8){
+            System.out.println("Você encontra um barco abandonado com suprimentos.");
+            jogador.recuperarEnergia(5);
+        } else {
+            System.out.println("Você tentou atravessar o rio e foi pego por uma correnteza");
+            jogador.sofrerDano(200);
+
+    }
     }
 
     @Override

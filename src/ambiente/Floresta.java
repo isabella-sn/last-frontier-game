@@ -4,6 +4,7 @@ import item.Item;
 import personagem.Personagem;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Floresta extends Ambiente {
@@ -48,15 +49,29 @@ public class Floresta extends Ambiente {
             System.out.println("Você decidiu não pegar nenhum item.");
         }
     }
-
     @Override
     public void gerarEvento(Personagem jogador) {
-        // Implementar eventos específicos da floresta
-    }
+            double chance = Math.random(); // valor entre 0.0 e 1.0
 
-    @Override
+            if (chance < 0.4) {
+                // 40% de chance
+                System.out.println("Você encontrou frutinhas no caminho e decidiu comer, elas eram venenosas");
+                jogador.sofrerDano(80);
+            } else if (chance < 0.8) {
+                // 40% de chance (de 0.4 a 0.8)
+                System.out.println("Você encontrou frutinhas no caminho e decidiu comer, elas não eram venenosas");
+                jogador.recuperarEnergia(40);
+            } else {
+                // 20% de chance (de 0.8 a 1.0)
+                System.out.println("Você tentou subir em uma árvore para ter uma visualização melhor do ambiente, caiu e morreu!");
+                jogador.sofrerDano(200);
+            }
+        }
+
+
+        @Override
     public void modificarClima() {
-        // Implementar mudança de clima da floresta
+
     }
     @Override
     public void removerItem(Item item) {

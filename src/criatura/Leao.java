@@ -5,7 +5,7 @@ import personagem.Personagem;
 
 public class Leao extends Criatura {
     public Leao() {
-        super("Leão", 20);
+        super("Leão", 100, 200);
     }
 
     @Override

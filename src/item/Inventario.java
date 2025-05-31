@@ -76,7 +76,6 @@ public class Inventario {
         System.out.println("=======================\n");
     }
 
-    // Opcional: método para verificar se um item está no inventário
     public boolean contemItem(String nomeItem) {
         for (Item item : listaDeItens) {
             if (item.getNome().equalsIgnoreCase(nomeItem)) {

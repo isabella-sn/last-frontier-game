@@ -1,6 +1,7 @@
 package personagem;
 
-import item.Inventario;  // Importa a classe Inventario (ajuste o pacote conforme seu projeto)
+import item.Inventario;
+import item.Armas;
 
 public abstract class Personagem {
     protected String nome;
@@ -22,16 +23,37 @@ public abstract class Personagem {
     // Inventário do personagem
     protected Inventario inventario;
 
+    //Combate
+    protected String tipoCombate;
+    protected Armas arma;
+
     public Personagem(String nome, int vida, int energia) {
         this.nome = nome;
         this.vida = Math.min(vida, maxVida);
         this.energia = Math.min(energia, maxEnergia);
         this.saude = maxSaude;
-
-        this.comida = maxComida / 2; // Começa com metade dos recursos
+        this.comida = maxComida / 2;
         this.agua = maxAgua / 2;
+        this.inventario = new Inventario(50.0);
+        this.tipoCombate = "Corpo a corpo";
+        this.arma = null;
+    }
 
-        this.inventario = new Inventario(50.0); // Por exemplo, capacidade 50.0 (ajuste conforme sua classe Inventario)
+    public void setArma(Armas arma) {
+        this.arma = arma;
+        System.out.println(nome + " equipou uma arma do tipo: " + arma.getTipo());
+    }
+
+    public Armas getArma() {
+        return arma;
+    }
+
+    public void atacar(String alvo) {
+        if (arma != null) {
+            arma.atacar(alvo);
+        } else {
+            System.out.println(nome + " não está equipado com nenhuma arma!");
+        }
     }
 
     public Inventario getInventario() {
@@ -42,6 +64,27 @@ public abstract class Personagem {
         return nome;
     }
 
+    public int getComida() {
+        return comida;
+    }
+
+    public int getAgua() {
+        return agua;
+    }
+
+    public int getVida() {
+        return vida;
+    }
+
+    public int getEnergia() {
+        return energia;
+    }
+
+    public int getSaude() {
+        return saude;
+    }
+
+
     public void exibirStatus() {
         System.out.println("Nome: " + nome);
         System.out.println("Vida: " + vida + "/" + maxVida);
@@ -49,6 +92,31 @@ public abstract class Personagem {
         System.out.println("Saúde: " + saude + "/" + maxSaude);
         System.out.println("Comida: " + comida + "/" + maxComida);
         System.out.println("Água: " + agua + "/" + maxAgua);
+        System.out.println("Tipo de Combate: " + tipoCombate);
+        if (arma != null) {
+            System.out.println("Arma equipada: " + arma.getTipo() +
+                    " | Dano: " + arma.getDano() +
+                    " | Alcance: " + arma.getAlcance());
+        } else {
+            System.out.println("Arma equipada: Nenhuma");
+        }
+    }
+
+    // Exibe barras de comida e água
+    public void exibirBarrasDeStatus() {
+        System.out.println("Comida: " + gerarBarra(comida, maxComida));
+        System.out.println("Água: " + gerarBarra(agua, maxAgua));
+    }
+
+    private String gerarBarra(int valor, int max) {
+        int total = 20;
+        int preenchido = (valor * total) / max;
+        StringBuilder barra = new StringBuilder("[");
+        for (int i = 0; i < total; i++) {
+            barra.append(i < preenchido ? "█" : " ");
+        }
+        barra.append("] ").append(valor).append("/").append(max);
+        return barra.toString();
     }
 
     public void perderEnergia(int quantidade) {
@@ -59,21 +127,13 @@ public abstract class Personagem {
         System.out.println(nome + " perdeu " + quantidade + " de energia. Energia atual: " + energia);
     }
 
-    public void sofrerDano(int dano) {
-        this.saude -= dano;
-        if (this.saude < 0) {
-            this.saude = 0;
-        }
-        System.out.println(nome + " sofreu " + dano + " de dano. Saúde atual: " + saude);
-    }
 
     public void recuperarEnergia(int valor) {
         energia += valor;
-        if (energia > maxEnergia) energia = maxEnergia; // limite máximo de energia
+        if (energia > maxEnergia) energia = maxEnergia;
         System.out.println(nome + " recuperou " + valor + " de energia. Energia atual: " + energia);
     }
 
-    // Métodos para comida e água
     public void consumirComida(int quantidade) {
         comida -= quantidade;
         if (comida < 0) comida = 0;
@@ -98,11 +158,25 @@ public abstract class Personagem {
         System.out.println(nome + " adicionou " + quantidade + " de água. Água atual: " + agua);
     }
 
-    // Método para consumir recursos a cada turno e aplicar penalidades
+    public void sofrerDano(int dano) {
+        this.saude -= dano;
+        if (this.saude <= 0) {
+            this.saude = 0;
+            System.out.println(nome + " sofreu " + dano + " de dano. Saúde atual: " + saude);
+            morrer();  // chama o método morrer aqui
+        } else {
+            System.out.println(nome + " sofreu " + dano + " de dano. Saúde atual: " + saude);
+        }
+    }
+
+    public void morrer() {
+        System.out.println(nome + "Você morreu. Fim de jogo.");
+        System.exit(0);
+    }
     public void consumirRecursosPorTurno() {
         consumirComida(1);
         consumirAgua(1);
-        perderEnergia(2); // energia sempre cai a cada turno
+        perderEnergia(2);
 
         if (comida == 0) {
             sofrerDano(5);
@@ -114,9 +188,8 @@ public abstract class Personagem {
         }
         if (energia == 0) {
             System.out.println(nome + " está exausto e precisa descansar!");
-            // Poderia adicionar efeito de perda de turno ou algo similar
         }
     }
+    public abstract void habilidadeEspecial();
 
-    public abstract void habilidadeEspecial(); // Cada personagem terá uma habilidade única
 }
