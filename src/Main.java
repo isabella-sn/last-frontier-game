@@ -1,4 +1,3 @@
-
 import ambiente.GerenciadorDeAmbientes;
 import evento.ControladorDeEventos;
 import item.*;
@@ -6,22 +5,6 @@ import personagem.*;
 import sistema.ControladorDeTurnos;
 import personagem.Jogador;
 import java.util.Scanner;
-/**
- * ==================================================
- *                  Last Frontier Game
- * ==================================================
- * Gênero: Jogo de Sobrevivência
- * Plataforma: Desktop (Java)
- * Conceito Principal:
- * Um jogo de sobrevivência onde o jogador deve gerenciar recursos,
- * explorar o ambiente e enfrentar perigos para sobreviver em um
- * mundo pós-apocalíptico/selvagem.
-
- * Público-alvo:
- * Jogadores interessados em desafios de sobrevivência,
- * gerenciamento de recursos e exploração.
- * ==================================================
- */
 
 public class Main {
     public static void main(String[] args) {
@@ -41,31 +24,15 @@ public class Main {
         Jogador jogador = new Jogador(nomeJogador);
         System.out.println("Bem-vindo, " + jogador.getNome() + "! Prepare-se para sobreviver.");
 
-
         // Outros personagens
         Medico medico = new Medico("Doutor Vida");
         Rastreador rastreador = new Rastreador("Olhos de Águia");
         SobreviventeNato sobrevivente = new SobreviventeNato("Lobo Solitário");
 
         // Inventários
-        Inventario inventarioProtagonista = new Inventario(70);
         Inventario inventarioMedico = new Inventario(50);
         Inventario inventarioRastreador = new Inventario(60);
         Inventario inventarioSobrevivente = new Inventario(70);
-
-        // Itens iniciais para protagonista (pode ajustar conforme quiser)
-        inventarioProtagonista.adicionarItem(new Armas(1, 10.0, "corpo a corpo", 30, 1));
-        inventarioProtagonista.adicionarItem(new Materiais(3, 3.0, "corda", 50));
-
-        // Itens iniciais para outros personagens
-        inventarioMedico.adicionarItem(new Remedios(2, 1.5, "Bandagem", "Cura ferimentos leves"));
-        inventarioMedico.adicionarItem(new Agua(1, 0.5, "potável", 1.0));
-
-        inventarioRastreador.adicionarItem(new Alimentos(2, 2.0, 20, "fruta", false));
-        inventarioRastreador.adicionarItem(new Ferramentas(1, 5.0, "lanterna", 80));
-
-        inventarioSobrevivente.adicionarItem(new Armas(1, 10.0, "corpo a corpo", 30, 1));
-        inventarioSobrevivente.adicionarItem(new Materiais(4, 3.0, "madeira", 70));
 
         boolean jogando = true;
 
@@ -81,12 +48,25 @@ public class Main {
 
             switch (escolha) {
                 case 1:
+                    // Adiciona os itens apenas quando o jogador escolhe o Médico
+                    if (inventarioMedico.estaVazio()) {
+                        inventarioMedico.adicionarItem(new Remedios(2, 1.5, "Bandagem", "Cura ferimentos leves"));
+                        inventarioMedico.adicionarItem(new Agua(1, 0.5, "potável", 1.0));
+                    }
                     menuPersonagem(scanner, medico, inventarioMedico, gerenciador, controlador, controladorEventos);
                     break;
                 case 2:
+                    if (inventarioRastreador.estaVazio()) {
+                        inventarioRastreador.adicionarItem(new Alimentos(2, 2.0, 20, "fruta", false));
+                        inventarioRastreador.adicionarItem(new Ferramentas(1, 5.0, "lanterna", 80));
+                    }
                     menuPersonagem(scanner, rastreador, inventarioRastreador, gerenciador, controlador, controladorEventos);
                     break;
                 case 3:
+                    if (inventarioSobrevivente.estaVazio()) {
+                        inventarioSobrevivente.adicionarItem(new Armas(1, 10.0, "corpo a corpo", 30, 1));
+                        inventarioSobrevivente.adicionarItem(new Materiais(4, 3.0, "madeira", 70));
+                    }
                     menuPersonagem(scanner, sobrevivente, inventarioSobrevivente, gerenciador, controlador, controladorEventos);
                     break;
                 case 4:
@@ -100,6 +80,7 @@ public class Main {
 
         scanner.close();
     }
+
     public static void mostrarIntroducao() {
         System.out.println("===============================================");
         System.out.println("          🧭 LAST FRONTIER GAME");

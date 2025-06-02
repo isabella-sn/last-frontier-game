@@ -28,6 +28,11 @@ public class Inventario {
             return false;
         }
     }
+    public boolean estaVazio() {
+        return listaDeItens.isEmpty();
+    }
+
+
 
     public boolean removerItem(String nomeItem) {
         Iterator<Item> iter = listaDeItens.iterator();

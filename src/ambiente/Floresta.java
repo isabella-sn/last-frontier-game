@@ -4,7 +4,6 @@ import item.Item;
 import personagem.Personagem;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Floresta extends Ambiente {
