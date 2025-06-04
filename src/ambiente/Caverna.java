@@ -27,11 +27,15 @@ public class Caverna extends Ambiente {
         recursos.add(new Alimentos(1, 1.2, 10, "fungos", false));
         return recursos;
     }
+
+    // Lógica de exploração
     @Override
     public void explorar(Personagem jogador) {
         System.out.println("Você explora a caverna com cuidado... é escuro e silencioso.");
-        // lógica de exploração
+        System.out.println(this.getDescricao());
+
     }
+
 
     @Override
     public void gerarEvento(Personagem jogador) {
@@ -55,6 +59,9 @@ public class Caverna extends Ambiente {
     public void removerItem(Item item) {
         if (this.getItensDisponiveis() != null) {
             this.getItensDisponiveis().remove(item);
+        }
+        if (this.recursosDisponiveis != null) {
+            this.recursosDisponiveis.remove(item);
         }
     }
 

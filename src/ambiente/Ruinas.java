@@ -1,7 +1,6 @@
 package ambiente;
 
 import criatura.Cobra;
-import criatura.Crocodilo;
 import item.Item;
 import item.Materiais;
 import java.util.*;
@@ -29,10 +28,13 @@ public class Ruinas extends Ambiente {
 
     @Override
     public void explorar(Personagem jogador) {
-        System.out.println("Você explora as ruínas...");
+        System.out.println("Você adentra as ruínas. O lugar é silencioso e empoeirado, com vestígios de uma civilização antiga.");
+        System.out.println(this.getDescricao());
         jogador.perderEnergia(5);
-        System.out.println("Você se move com cautela. Energia consumida: 5");
+        System.out.println("Você se move com cautela. Energia consumida: 5.");
+
     }
+
 
     @Override
     public void gerarEvento(Personagem jogador) {
@@ -63,7 +65,8 @@ public class Ruinas extends Ambiente {
         if (this.getItensDisponiveis() != null) {
             this.getItensDisponiveis().remove(item);
         }
+        if (this.recursosDisponiveis != null) {
+            this.recursosDisponiveis.remove(item);
+        }
     }
-
-
 }

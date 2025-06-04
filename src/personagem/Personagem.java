@@ -2,6 +2,7 @@ package personagem;
 
 import item.Inventario;
 import item.Armas;
+import excecoes.MortePorFomeOuSedeException;
 
 public abstract class Personagem {
     protected String nome;
@@ -102,7 +103,6 @@ public abstract class Personagem {
         }
     }
 
-    // Exibe barras de comida e água
     public void exibirBarrasDeStatus() {
         System.out.println("Comida: " + gerarBarra(comida, maxComida));
         System.out.println("Água: " + gerarBarra(agua, maxAgua));
@@ -158,21 +158,32 @@ public abstract class Personagem {
         System.out.println(nome + " adicionou " + quantidade + " de água. Água atual: " + agua);
     }
 
+
     public void sofrerDano(int dano) {
-        this.saude -= dano;
-        if (this.saude <= 0) {
-            this.saude = 0;
-            System.out.println(nome + " sofreu " + dano + " de dano. Saúde atual: " + saude);
-            morrer();  // chama o método morrer aqui
+        this.vida -= dano;
+
+        if (this.vida <= 0) {
+            this.vida = 0;
+            System.out.println(nome + " sofreu " + dano + " de dano. Vida atual: " + vida);
+            throw new MortePorFomeOuSedeException(nome + " morreu devido a ferimentos graves!");
         } else {
-            System.out.println(nome + " sofreu " + dano + " de dano. Saúde atual: " + saude);
+            System.out.println(nome + " sofreu " + dano + " de dano. Vida atual: " + vida);
         }
     }
 
     public void morrer() {
-        System.out.println(nome + "Você morreu. Fim de jogo.");
-        System.exit(0);
+        throw new MortePorFomeOuSedeException(nome + "Você morreu. Fim de jogo."); // Lança a exceção
     }
+
+
+
+    public void verificarMorte() {
+        if (this.vida <= 0 || this.saude <= 0) {
+            throw new MortePorFomeOuSedeException(nome + " não sobreviveu!");
+        }
+    }
+
+
     public void consumirRecursosPorTurno() {
         consumirComida(1);
         consumirAgua(1);
@@ -189,7 +200,7 @@ public abstract class Personagem {
         if (energia == 0) {
             System.out.println(nome + " está exausto e precisa descansar!");
         }
+
     }
     public abstract void habilidadeEspecial();
-
 }

@@ -26,12 +26,16 @@ public class LagoERio extends Ambiente {
         return recursos;
     }
 
+
     @Override
     public void explorar(Personagem jogador) {
-        System.out.println("Você tenta pescar no rio...");
+        System.out.println("Você se aproxima do lago e do rio. A água brilha sob o sol.");
+        System.out.println(this.getDescricao());
         jogador.perderEnergia(10);
-        System.out.println("Energia consumida: 10");
+        System.out.println("A tentativa de pesca consumiu 10 de energia.");
+
     }
+
 
     @Override
     public void gerarEvento(Personagem jogador) {
@@ -51,7 +55,7 @@ public class LagoERio extends Ambiente {
             System.out.println("Você tentou atravessar o rio e foi pego por uma correnteza");
             jogador.sofrerDano(200);
 
-    }
+        }
     }
 
     @Override
@@ -63,7 +67,8 @@ public class LagoERio extends Ambiente {
         if (this.getItensDisponiveis() != null) {
             this.getItensDisponiveis().remove(item);
         }
+        if (this.recursosDisponiveis != null) {
+            this.recursosDisponiveis.remove(item);
+        }
     }
-
-
 }

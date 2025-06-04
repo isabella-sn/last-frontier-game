@@ -1,8 +1,10 @@
 package item;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import excecoes.InventarioCheioException;
 
 public class Inventario {
     private List<Item> listaDeItens;
@@ -13,40 +15,52 @@ public class Inventario {
         this.listaDeItens = new ArrayList<>();
         this.pesoTotal = 0.0;
         this.espacoDisponivel = espacoMaximo;
+
     }
 
-    public boolean adicionarItem(Item item) {
+    public void adicionarItem(Item item) throws InventarioCheioException {
         double pesoDoItem = item.getPesoTotal();
+
 
         if (pesoTotal + pesoDoItem <= espacoDisponivel) {
             listaDeItens.add(item);
             pesoTotal += pesoDoItem;
+            Collections.sort(listaDeItens);
             System.out.println(item.getNome() + " adicionado ao inventário.");
-            return true;
+
         } else {
             System.out.println("Sem espaço suficiente para adicionar " + item.getNome());
-            return false;
+
+            throw new InventarioCheioException("Sem espaço suficiente para adicionar " + item.getNome() + ". Peso restante: " + (espacoDisponivel - pesoTotal));
         }
     }
+
     public boolean estaVazio() {
         return listaDeItens.isEmpty();
     }
 
-
-
     public boolean removerItem(String nomeItem) {
         Iterator<Item> iter = listaDeItens.iterator();
+        boolean itemRemovido = false;
         while (iter.hasNext()) {
             Item item = iter.next();
             if (item.getNome().equalsIgnoreCase(nomeItem)) {
                 pesoTotal -= item.getPesoTotal();
                 iter.remove();
+                itemRemovido = true;
                 System.out.println(nomeItem + " removido do inventário.");
-                return true;
+
+                break;
             }
         }
-        System.out.println(nomeItem + " não encontrado no inventário.");
-        return false;
+
+        if (itemRemovido) {
+            Collections.sort(listaDeItens);
+            return true;
+        } else {
+            System.out.println(nomeItem + " não encontrado no inventário.");
+            return false;
+        }
     }
 
     public boolean usarItem(String nomeItem) {
@@ -56,7 +70,9 @@ public class Inventario {
                 item.usar();
                 pesoTotal -= item.getPesoTotal();
                 listaDeItens.remove(i);
+                Collections.sort(listaDeItens);
                 System.out.println(nomeItem + " foi usado e removido do inventário.");
+
                 return true;
             }
         }
@@ -66,6 +82,7 @@ public class Inventario {
 
     public void mostrarInventario() {
         System.out.println("\n===== Inventário =====");
+
 
         if (listaDeItens.isEmpty()) {
             System.out.println("O inventário está vazio.");

@@ -1,6 +1,6 @@
 package item;
 
-public abstract class Item {
+public abstract class Item implements Comparable<Item> {
     protected String nome;
     protected int quantidade;
     protected double peso;
@@ -26,4 +26,12 @@ public abstract class Item {
     }
 
     public abstract void usar();
+
+
+    @Override
+    public int compareTo(Item outroItem) {
+
+        return this.nome.compareToIgnoreCase(outroItem.nome);
+    }
+
 }

@@ -3,6 +3,7 @@ package ambiente;
 import personagem.Personagem;
 import item.Item;
 import item.Inventario;
+import excecoes.AmbienteInacessivelException;
 
 import java.util.*;
 
@@ -34,28 +35,26 @@ public class GerenciadorDeAmbientes {
         }
     }
 
-    public void mudarAmbiente(int escolha) {
-        if (escolha >= 0 && escolha < todosAmbientes.size()) {
-            ambienteAtual = todosAmbientes.get(escolha);
-            System.out.println("Você se moveu para: " + ambienteAtual.getNome());
-        } else {
-            System.out.println("Escolha inválida. Tente novamente.");
+    public void mudarAmbiente(int escolha) throws AmbienteInacessivelException {
+        if (escolha < 0 || escolha >= todosAmbientes.size()) {
+            throw new AmbienteInacessivelException("Escolha inválida. O ambiente selecionado não existe.");
         }
+
+        Ambiente proximoAmbiente = todosAmbientes.get(escolha);
+
+
+        ambienteAtual = proximoAmbiente;
+        System.out.println("Você se moveu para: " + ambienteAtual.getNome());
     }
 
-
-    public void explorarAmbiente(Personagem jogador, Inventario inventario, Scanner scanner) {
-        System.out.println("\n--- Exploração do Ambiente: " + ambienteAtual.getNome() + " ---");
-        System.out.println(ambienteAtual.getDescricao());
-
-        List<Item> itensDisponiveis = ambienteAtual.getRecursosDisponiveis();
+    private void processarColetaDeItem(Personagem jogador, Scanner scanner, List<Item> itensDisponiveis) {
 
         if (itensDisponiveis.isEmpty()) {
-            System.out.println("Nenhum item encontrado no ambiente.");
+            System.out.println("Nenhum item para coletar encontrado neste local.");
             return;
         }
 
-        System.out.println("Você encontrou os seguintes itens:");
+        System.out.println("\nItens disponíveis para coleta:");
         for (int i = 0; i < itensDisponiveis.size(); i++) {
             System.out.println((i + 1) + ". " + itensDisponiveis.get(i).getNome());
         }
@@ -66,17 +65,23 @@ public class GerenciadorDeAmbientes {
 
         if (escolha > 0 && escolha <= itensDisponiveis.size()) {
             Item itemEscolhido = itensDisponiveis.get(escolha - 1);
-            boolean adicionado = inventario.adicionarItem(itemEscolhido);
-
-            if (adicionado) {
+            try {
+                jogador.getInventario().adicionarItem(itemEscolhido);
                 ambienteAtual.removerItem(itemEscolhido);
                 System.out.println("Você pegou o(a) " + itemEscolhido.getNome() + ".");
-            } else {
-                System.out.println("Não foi possível pegar o item. Inventário cheio ou sem espaço.");
+            } catch (excecoes.InventarioCheioException e) {
+                System.out.println("Não foi possível pegar o item. " + e.getMessage());
             }
         } else {
             System.out.println("Você decidiu não pegar nenhum item.");
         }
+    }
+
+    public void explorarAmbiente(Personagem jogador, Inventario inventario, Scanner scanner) {
+        System.out.println("\n--- Exploração do Ambiente: " + ambienteAtual.getNome() + " ---");
+        ambienteAtual.explorar(jogador);
+
+        processarColetaDeItem(jogador, scanner, ambienteAtual.getRecursosDisponiveis());
     }
 
 
@@ -94,10 +99,24 @@ public class GerenciadorDeAmbientes {
         ambienteAtual.modificarClima();
     }
 
-    public void listarRecursosDisponiveis() {
+    public void listarRecursosDisponiveis(Personagem jogador, Scanner scanner) {
         System.out.println("\n--- Recursos disponíveis no ambiente atual ---");
-        for (Item recurso : ambienteAtual.getRecursosDisponiveis()) {
-            System.out.println("- " + recurso.getNome());
+        List<Item> recursos = ambienteAtual.getRecursosDisponiveis();
+
+        if (recursos.isEmpty()) {
+            System.out.println("Nenhum recurso listado no momento.");
+        } else {
+            for (Item recurso : recursos) {
+                System.out.println("- " + recurso.getNome());
+            }
+        }
+
+        System.out.print("Deseja coletar algum desses itens? (s/n): ");
+        String resposta = scanner.nextLine();
+        if (resposta.equalsIgnoreCase("s")) {
+            processarColetaDeItem(jogador, scanner, recursos);
+        } else {
+            System.out.println("Você decidiu não coletar nenhum item neste momento.");
         }
     }
 }

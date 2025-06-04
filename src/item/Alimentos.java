@@ -2,7 +2,7 @@ package item;
 
 public class Alimentos extends Item {
     private int valorNutricional;
-    private String tipo; // fruta, carne, enlatado, etc.
+    private String tipo;
     private boolean estraga;
 
     public Alimentos(int quantidade, double peso, int valorNutricional, String tipo, boolean estraga) {

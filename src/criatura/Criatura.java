@@ -1,3 +1,4 @@
+
 package criatura;
 
 import personagem.Personagem;

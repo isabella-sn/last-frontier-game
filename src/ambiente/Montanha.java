@@ -1,12 +1,9 @@
 package ambiente;
 
-import criatura.Cobra;
 import criatura.Leao;
 import item.Item;
 import item.Agua;
 import java.util.*;
-
-import personagem.Jogador;
 import personagem.Personagem;
 
 public class Montanha extends Ambiente {
@@ -25,16 +22,20 @@ public class Montanha extends Ambiente {
     private static List<Item> gerarRecursos() {
         List<Item> recursos = new ArrayList<>();
         recursos.add(new Agua(1, 0.5, "degelo", 1.5));
-        // Você pode adicionar outros itens como minérios se tiver classe
+
         return recursos;
     }
 
+
     @Override
     public void explorar(Personagem jogador) {
-        System.out.println("Explorando a montanha...");
+        System.out.println("Você escala a montanha. O terreno é traiçoeiro e o vento é cortante.");
+        System.out.println(this.getDescricao());
         jogador.perderEnergia(20);
-        System.out.println("Terreno difícil. Energia consumida: 20");
+        System.out.println("Terreno difícil. Energia consumida: 20.");
+
     }
+
 
     @Override
     public void gerarEvento(Personagem jogador) {
@@ -63,8 +64,10 @@ public class Montanha extends Ambiente {
         if (this.getItensDisponiveis() != null) {
             this.getItensDisponiveis().remove(item);
         }
+        if (this.recursosDisponiveis != null) {
+            this.recursosDisponiveis.remove(item);
+        }
     }
-
 
 
     @Override

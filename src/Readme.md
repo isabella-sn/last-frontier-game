@@ -64,7 +64,7 @@ Jogo Sobrevivencia LPOO/
 │   │       └── SobreviventeNato.java
 │   │   └── Personagens.java
 │
-│   ├── Main.java                   
+│   ├── main.Main.java                   
 │   └── Readme.md                 
 │
 ├── .gitignore
@@ -89,7 +89,7 @@ Jogo Sobrevivencia LPOO/
 
 1. Clone o projeto ou baixe os arquivos.
 2. Abra o projeto no **Visual Studio Code** ou **IntelliJ IDEA**.
-3. Compile e execute a classe `Main.java`.
+3. Compile e execute a classe `main.Main.java`.
 4. Jogue pelo terminal, utilizando o menu interativo para navegar entre ações.
 
 ---
